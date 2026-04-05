@@ -32,8 +32,6 @@ def http_probe(url):
     can_continue = status_code_ident(conn.status_code)
     if not can_continue:
         return -1
-    # Print raw headers
-    print(f"Raw Headers: {conn.headers}")
 
     # The main differnce between .content and .text, is mainly beacuse content is returned
     # in bytes, and text is returned in string, so because we want text, for now, we'll
