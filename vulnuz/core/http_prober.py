@@ -26,6 +26,8 @@ def http_probe(url):
     except Exception as e:
         print(f"ERROR: {e}")
         return -1
+    
+    print("Connected to site successfully!")
 
     can_continue = status_code_ident(conn.status_code)
     if not can_continue:
