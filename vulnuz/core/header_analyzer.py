@@ -1,17 +1,25 @@
 import requests as req
 
-def analyze_headers(url):
-   findings = []
+def analyze_headers(headers):
+    findings = []
 
-   # HTTP GET request
-   try:
-      conn = req.get(url)
-   except Exception as e:
-      print(f"ERROR: {e}")
+    print("Analyzing headers...")
 
-    print("Connection done with sucess!")
+    if 'X-Frame-Options' not in headers:
+        findings.append("VULNERABILITY: X-Frame-Options not found in headers (clickjacking risk)")
+    if 'Content-Security-Policy' not in headers:
+        findings.append("VULNERABILITY: Content-Security-Policy not found in headers (XSS risk)")
+    if 'Strict-Transport-Security' not in headers:
+        findings.append("VULNERABILITY: Strict-Transport-Security not found in headers (downgrade attack risk)")
+    if 'X-Content-Type-Options' not in headers:
+        findings.append("VULNERABILITY: X-Content-Type-Options not found in headers (MIME sniffing risk)")
+    if 'Set-Cookie' not in headers:
+        findings.append("VULNERABILITY: Set-Cookie not found in headers (cookie theft risk)")
+    if 'Server' in headers:
+        findings.append("VULNERABILITY: Server found in headers (information leak risk)")
+
+   
+    if findings == []:
+        return "NO VULNERABILITY FOUND IN HEADERS: your site is safe ^-^"
     
-
-if __name__ == "__main__":
-   url = input("URL - ")
-   analyze_headers(url)
+    return findings
